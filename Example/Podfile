@@ -1,0 +1,12 @@
+# Podfile for EntrigExample
+
+platform :ios, '14.0'
+use_frameworks!
+
+target 'EntrigExample' do
+  # Use local EntrigSDK for development
+  pod 'EntrigSDK', :path => '../'
+
+  # Note: Supabase is added via Swift Package Manager in Xcode
+  # Not available via CocoaPods
+end
