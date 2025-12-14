@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = 'EntrigSDK'
+  s.name             = 'Entrig'
   s.version          = '0.0.1-dev'
   s.summary          = 'Entrig SDK for iOS - No-code Push Notifications for Supabase'
   s.description      = <<-DESC
@@ -14,7 +14,7 @@ Features include automatic registration, notification handling, and Supabase aut
   s.ios.deployment_target = '14.0'
   s.swift_version = '5.0'
 
-  s.source_files = 'Sources/EntrigSDK/**/*.swift'
+  s.source_files = 'Sources/Entrig/**/*.swift'
 
   s.frameworks = 'Foundation', 'UserNotifications', 'UIKit'
 end

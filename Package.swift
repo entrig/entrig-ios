@@ -2,22 +2,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "EntrigSDK",
+    name: "Entrig",
     platforms: [
         .iOS(.v14)
     ],
     products: [
         .library(
-            name: "EntrigSDK",
-            targets: ["EntrigSDK"]
+            name: "Entrig",
+            targets: ["Entrig"]
         )
     ],
     dependencies: [],
     targets: [
         .target(
-            name: "EntrigSDK",
+            name: "Entrig",
             dependencies: [],
-            path: "Sources/EntrigSDK"
+            path: "Sources/Entrig"
         )
     ]
 )
