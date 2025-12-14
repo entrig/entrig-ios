@@ -21,7 +21,7 @@
 		2894B3762EEAB5DF005968C9 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 2894B3752EEAB5DF005968C9 /* Realtime */; };
 		2894B3782EEAB5DF005968C9 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 2894B3772EEAB5DF005968C9 /* Storage */; };
 		2894B37A2EEAB5DF005968C9 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 2894B3792EEAB5DF005968C9 /* Supabase */; };
-		28AFA2352EEE8F7000988B55 /* Entrig in Frameworks */ = {isa = PBXBuildFile; productRef = 28AFA2342EEE8F7000988B55 /* Entrig */; };
+		28AFA23B2EEE930200988B55 /* Entrig in Frameworks */ = {isa = PBXBuildFile; productRef = 28AFA23A2EEE930200988B55 /* Entrig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,7 +50,7 @@
 				2894B3722EEAB5DF005968C9 /* Functions in Frameworks */,
 				2894B3702EEAB5DF005968C9 /* Auth in Frameworks */,
 				2894B3762EEAB5DF005968C9 /* Realtime in Frameworks */,
-				28AFA2352EEE8F7000988B55 /* Entrig in Frameworks */,
+				28AFA23B2EEE930200988B55 /* Entrig in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,7 +160,7 @@
 			mainGroup = 1D8E7F5D2C8B9A1D00000000;
 			packageReferences = (
 				2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
-				284B43FE2EEE8DB600C8A5B8 /* XCRemoteSwiftPackageReference "entrig-ios" */,
+				28AFA2392EEE930200988B55 /* XCRemoteSwiftPackageReference "entrig-ios" */,
 			);
 			productRefGroup = 1D8E7F672C8B9A1D00000000 /* Products */;
 			projectDirPath = "";
@@ -404,20 +404,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		284B43FE2EEE8DB600C8A5B8 /* XCRemoteSwiftPackageReference "entrig-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/entrig/entrig-ios";
-			requirement = {
-				kind = exactVersion;
-				version = "0.0.1-dev";
-			};
-		};
 		2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.5.1;
+			};
+		};
+		28AFA2392EEE930200988B55 /* XCRemoteSwiftPackageReference "entrig-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/entrig/entrig-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -453,9 +453,9 @@
 			package = 2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
 		};
-		28AFA2342EEE8F7000988B55 /* Entrig */ = {
+		28AFA23A2EEE930200988B55 /* Entrig */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 284B43FE2EEE8DB600C8A5B8 /* XCRemoteSwiftPackageReference "entrig-ios" */;
+			package = 28AFA2392EEE930200988B55 /* XCRemoteSwiftPackageReference "entrig-ios" */;
 			productName = Entrig;
 		};
 /* End XCSwiftPackageProductDependency section */
