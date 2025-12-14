@@ -25,7 +25,7 @@ Add the following to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/entrig/entrig-ios.git", from: "1.0.0")
+    .package(url: "https://github.com/entrig/entrig-ios.git", from: "0.0.1-dev")
 ]
 ```
 
@@ -39,7 +39,7 @@ Or in Xcode:
 Add to your `Podfile`:
 
 ```ruby
-pod 'EntrigSDK', '~> 1.0.0'
+pod 'Entrig', '~> 0.0.1-dev'
 ```
 
 Then run:
@@ -78,7 +78,7 @@ In your `AppDelegate.swift`:
 
 ```swift
 import UIKit
-import EntrigSDK
+import Entrig
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
