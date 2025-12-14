@@ -71,8 +71,8 @@ class GroupsViewController: UIViewController {
     }
 
     private func setupNotificationListeners() {
-        Entrig.setOnNotificationReceivedListener(self)
-        Entrig.setOnNotificationClickListener(self)
+        Entrig.setOnForegroundNotificationListener(self)
+        Entrig.setOnNotificationOpenedListener(self)
 
         // Check for initial notification
         if let notification = Entrig.getInitialNotification() {

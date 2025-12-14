@@ -24,14 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let config = EntrigConfig(
             apiKey: entrigApiKey,
-            handlePermissionAutomatically: true
+            handlePermission: true
         )
 
-        Entrig.initialize(config: config) { success, error in
+        Entrig.configure(config: config) { success, error in
             if success {
-                print("[EntrigExample] ✅ Entrig SDK initialized successfully")
+                print("[EntrigExample] ✅ Entrig SDK configured successfully")
             } else {
-                print("[EntrigExample] ❌ Entrig SDK initialization failed: \(error ?? "Unknown error")")
+                print("[EntrigExample] ❌ Entrig SDK configuration failed: \(error ?? "Unknown error")")
             }
         }
 

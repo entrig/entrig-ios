@@ -416,8 +416,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/entrig/entrig-ios";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = "0.0.2-dev";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
