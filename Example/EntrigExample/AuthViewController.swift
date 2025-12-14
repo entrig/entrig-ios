@@ -1,5 +1,5 @@
 import UIKit
-import EntrigSDK
+import Entrig
 
 /// Auth screen for signing in (matching Flutter AuthScreen exactly)
 class AuthViewController: UIViewController {

@@ -1,6 +1,6 @@
 import UIKit
 import UserNotifications
-import EntrigSDK
+import Entrig
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

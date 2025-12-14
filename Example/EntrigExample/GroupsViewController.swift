@@ -1,5 +1,5 @@
 import UIKit
-import EntrigSDK
+import Entrig
 
 /// Groups list screen (matching Flutter HomeScreen exactly)
 class GroupsViewController: UIViewController {

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D8E7F6A2C8B9A1D00000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E7F692C8B9A1D00000001 /* AppDelegate.swift */; };
 		1D8E7F6E2C8B9A1D00000002 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8E7F6D2C8B9A1D00000002 /* HomeViewController.swift */; };
-		280EA2C12EEC694F001844B9 /* EntrigSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 280EA2C02EEC694F001844B9 /* EntrigSDK */; };
 		2894B3632EEAACB3005968C9 /* ChatModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2894B3612EEAACB3005968C9 /* ChatModels.swift */; };
 		2894B3672EEAACBF005968C9 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2894B3652EEAACBF005968C9 /* SupabaseService.swift */; };
 		2894B3682EEAACBF005968C9 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2894B3642EEAACBF005968C9 /* AuthService.swift */; };
@@ -22,6 +21,7 @@
 		2894B3762EEAB5DF005968C9 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 2894B3752EEAB5DF005968C9 /* Realtime */; };
 		2894B3782EEAB5DF005968C9 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 2894B3772EEAB5DF005968C9 /* Storage */; };
 		2894B37A2EEAB5DF005968C9 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 2894B3792EEAB5DF005968C9 /* Supabase */; };
+		28AFA2352EEE8F7000988B55 /* Entrig in Frameworks */ = {isa = PBXBuildFile; productRef = 28AFA2342EEE8F7000988B55 /* Entrig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,9 +48,9 @@
 				2894B3782EEAB5DF005968C9 /* Storage in Frameworks */,
 				2894B3742EEAB5DF005968C9 /* PostgREST in Frameworks */,
 				2894B3722EEAB5DF005968C9 /* Functions in Frameworks */,
-				280EA2C12EEC694F001844B9 /* EntrigSDK in Frameworks */,
 				2894B3702EEAB5DF005968C9 /* Auth in Frameworks */,
 				2894B3762EEAB5DF005968C9 /* Realtime in Frameworks */,
+				28AFA2352EEE8F7000988B55 /* Entrig in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +62,7 @@
 			children = (
 				2D9A8E1B3C7F5A2D9B4E6C8F /* EntrigExample.xcconfig */,
 				1D8E7F682C8B9A1D00000001 /* EntrigExample */,
+				28AFA2332EEE8F7000988B55 /* Frameworks */,
 				1D8E7F672C8B9A1D00000000 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +106,13 @@
 				2894B3652EEAACBF005968C9 /* SupabaseService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		28AFA2332EEE8F7000988B55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,7 +160,7 @@
 			mainGroup = 1D8E7F5D2C8B9A1D00000000;
 			packageReferences = (
 				2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
-				280EA2BF2EEC694F001844B9 /* XCRemoteSwiftPackageReference "entrig-ios" */,
+				284B43FE2EEE8DB600C8A5B8 /* XCRemoteSwiftPackageReference "entrig-ios" */,
 			);
 			productRefGroup = 1D8E7F672C8B9A1D00000000 /* Products */;
 			projectDirPath = "";
@@ -396,9 +404,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		280EA2BF2EEC694F001844B9 /* XCRemoteSwiftPackageReference "entrig-ios" */ = {
+		284B43FE2EEE8DB600C8A5B8 /* XCRemoteSwiftPackageReference "entrig-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/entrig/entrig-ios.git";
+			repositoryURL = "https://github.com/entrig/entrig-ios";
 			requirement = {
 				kind = exactVersion;
 				version = "0.0.1-dev";
@@ -415,11 +423,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		280EA2C02EEC694F001844B9 /* EntrigSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 280EA2BF2EEC694F001844B9 /* XCRemoteSwiftPackageReference "entrig-ios" */;
-			productName = EntrigSDK;
-		};
 		2894B36F2EEAB5DF005968C9 /* Auth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
@@ -449,6 +452,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
+		};
+		28AFA2342EEE8F7000988B55 /* Entrig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 284B43FE2EEE8DB600C8A5B8 /* XCRemoteSwiftPackageReference "entrig-ios" */;
+			productName = Entrig;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
