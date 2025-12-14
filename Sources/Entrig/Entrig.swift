@@ -6,11 +6,11 @@ import UIKit
 ///
 /// Usage:
 /// ```swift
-/// // Initialize in AppDelegate
+/// // Configure in AppDelegate
 /// let config = EntrigConfig(apiKey: "your-api-key")
-/// Entrig.initialize(config: config) { success, error in
+/// Entrig.configure(config: config) { success, error in
 ///     if success {
-///         // SDK initialized successfully
+///         // SDK configured successfully
 ///     }
 /// }
 ///
@@ -22,8 +22,8 @@ import UIKit
 /// }
 ///
 /// // Listen for notifications
-/// Entrig.setOnNotificationReceivedListener(self)
-/// Entrig.setOnNotificationClickListener(self)
+/// Entrig.setOnForegroundNotificationListener(self)
+/// Entrig.setOnNotificationOpenedListener(self)
 /// ```
 public class Entrig: NSObject {
 
@@ -40,18 +40,18 @@ public class Entrig: NSObject {
         super.init()
     }
 
-    // MARK: - Initialization
+    // MARK: - Configuration
 
-    /// Initializes the Entrig SDK with the provided configuration.
+    /// Configures the Entrig SDK with the provided configuration.
     ///
     /// - Parameters:
     ///   - config: SDK configuration including API key
-    ///   - callback: Optional callback for initialization result
-    public static func initialize(config: EntrigConfig, callback: OnInitializationCallback? = nil) {
+    ///   - callback: Optional callback for configuration result
+    public static func configure(config: EntrigConfig, callback: OnInitializationCallback? = nil) {
         shared.config = config
         APNsManager.shared.configure(apiKey: config.apiKey)
 
-        print("[EntrigSDK] SDK initialized successfully")
+        print("[EntrigSDK] SDK configured successfully")
 
         callback?(true, nil)
     }
@@ -60,7 +60,7 @@ public class Entrig: NSObject {
 
     /// Registers a user for push notifications.
     ///
-    /// If handlePermissionAutomatically is enabled in config, this will automatically
+    /// If handlePermission is enabled in config, this will automatically
     /// request notification permission before registration.
     ///
     /// - Parameters:
@@ -69,11 +69,11 @@ public class Entrig: NSObject {
     ///   - callback: Optional callback for registration result
     public static func register(userId: String, sdk: String = "ios", callback: OnRegistrationCallback? = nil) {
         guard let config = shared.config else {
-            callback?(false, "SDK not initialized. Call initialize() first.")
+            callback?(false, "SDK not configured. Call configure() first.")
             return
         }
 
-        if config.handlePermissionAutomatically {
+        if config.handlePermission {
             requestPermission { granted, error in
                 if let error = error {
                     callback?(false, error.localizedDescription)
@@ -96,7 +96,7 @@ public class Entrig: NSObject {
     /// - Parameter callback: Optional callback for unregistration result
     public static func unregister(callback: OnUnregistrationCallback? = nil) {
         guard shared.config != nil else {
-            callback?(false, "SDK not initialized. Call initialize() first.")
+            callback?(false, "SDK not configured. Call configure() first.")
             return
         }
 
@@ -122,14 +122,14 @@ public class Entrig: NSObject {
     /// Sets a listener for notifications received while app is in foreground.
     ///
     /// - Parameter listener: Listener to handle foreground notifications
-    public static func setOnNotificationReceivedListener(_ listener: OnNotificationReceivedListener?) {
+    public static func setOnForegroundNotificationListener(_ listener: OnNotificationReceivedListener?) {
         shared.notificationReceivedListener = listener
     }
 
-    /// Sets a listener for notification click events.
+    /// Sets a listener for notification opened events.
     ///
-    /// - Parameter listener: Listener to handle notification clicks
-    public static func setOnNotificationClickListener(_ listener: OnNotificationClickListener?) {
+    /// - Parameter listener: Listener to handle notification opened events
+    public static func setOnNotificationOpenedListener(_ listener: OnNotificationClickListener?) {
         shared.notificationClickListener = listener
     }
 
