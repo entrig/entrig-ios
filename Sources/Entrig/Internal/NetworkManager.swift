@@ -3,6 +3,12 @@ import Foundation
 internal class NetworkManager {
     static let shared = NetworkManager()
 
+    #if DEBUG
+    static let isDebug = true
+    #else
+    static let isDebug = false
+    #endif
+
     private let baseURL = "https://wlbsugnskuojugsubnjj.supabase.co/functions/v1"
     private let timeout: TimeInterval = 30
 
@@ -22,7 +28,8 @@ internal class NetworkManager {
             "apn_token": apnToken,
             "is_sandbox": isSandbox,
             "env": environment,
-            "sdk": sdk
+            "sdk": sdk,
+            "is_debug": NetworkManager.isDebug,
         ]
 
         let headers = [
