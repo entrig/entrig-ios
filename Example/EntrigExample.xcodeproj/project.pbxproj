@@ -417,7 +417,7 @@
 			repositoryURL = "https://github.com/entrig/entrig-ios";
 			requirement = {
 				kind = exactVersion;
-				version = "0.0.2-dev";
+				version = "0.0.3-dev";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
