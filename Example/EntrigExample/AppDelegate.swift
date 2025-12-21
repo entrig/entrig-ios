@@ -13,14 +13,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
 
         // Initialize Supabase
-        let supabaseURL = ProcessInfo.processInfo.environment["SUPABASE_URL"] ?? "https://fsavipscphrohkmddnak.supabase.co"
-        let supabaseAnonKey = ProcessInfo.processInfo.environment["SUPABASE_ANON_KEY"] ?? "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzYXZpcHNjcGhyb2hrbWRkbmFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4NTA3MzMsImV4cCI6MjA3ODQyNjczM30.3G2tCH8DvZ63K-wkXJmPlPzLivj7zj7musK3e-MPRJU"
+        let supabaseURL = ProcessInfo.processInfo.environment["SUPABASE_URL"] ?? ""
+        let supabaseAnonKey = ProcessInfo.processInfo.environment["SUPABASE_ANON_KEY"] ?? ""
 
         SupabaseService.shared.initialize(url: supabaseURL, anonKey: supabaseAnonKey)
         print("[EntrigExample] ✅ Supabase initialized")
 
         // Initialize Entrig SDK
-        let entrigApiKey = ProcessInfo.processInfo.environment["ENTRIG_API_KEY"] ?? "sk-proj-6cf6aea8-9f49110a909ab0594a29ae2997e6cf3762969b8134d620c0f09b6d0ae6c968b0"
+        let entrigApiKey = ProcessInfo.processInfo.environment["ENTRIG_API_KEY"] ?? ""
 
         let config = EntrigConfig(
             apiKey: entrigApiKey,

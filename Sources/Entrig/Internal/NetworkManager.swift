@@ -18,16 +18,13 @@ internal class NetworkManager {
         apiKey: String,
         userId: String,
         apnToken: String,
-        isSandbox: Bool,
-        environment: String,
         sdk: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
         let body: [String: Any] = [
             "user_id": userId,
             "apn_token": apnToken,
-            "is_sandbox": isSandbox,
-            "env": environment,
+            "is_sandbox": NetworkManager.isDebug,
             "sdk": sdk,
             "is_debug": NetworkManager.isDebug,
         ]

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Entrig'
-  s.version          = '0.0.3-dev'
+  s.version          = '0.0.4-dev'
   s.summary          = 'Entrig SDK for iOS - No-code Push Notifications for Supabase'
   s.description      = <<-DESC
 Entrig SDK provides seamless push notification integration for iOS applications using Supabase.

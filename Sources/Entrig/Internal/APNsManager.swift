@@ -38,15 +38,11 @@ internal class APNsManager: NSObject {
             return
         }
 
-        let environment = getAPNsEnvironment()
-        let isSandbox = environment == "sandbox"
 
         NetworkManager.shared.register(
             apiKey: apiKey,
             userId: userId,
             apnToken: token,
-            isSandbox: isSandbox,
-            environment: environment,
             sdk: sdk
         ) { [weak self] result in
             guard let self = self else { return }
@@ -155,22 +151,6 @@ internal class APNsManager: NSObject {
         }
 
         return NotificationEvent(title: title, body: body, type: type, data: data)
-    }
-
-    // MARK: - Helpers
-
-    private func getAPNsEnvironment() -> String {
-        #if DEBUG
-        return "sandbox"
-        #else
-        if let path = Bundle.main.path(forResource: "embedded", ofType: "mobileprovision"),
-           let data = try? String(contentsOfFile: path) {
-            if data.contains("<key>aps-environment</key><string>production</string>") {
-                return "production"
-            }
-        }
-        return "sandbox"
-        #endif
     }
 
     private func clearPendingState() {
