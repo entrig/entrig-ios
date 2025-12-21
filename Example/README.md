@@ -11,7 +11,7 @@ This example app demonstrates all features of the Entrig iOS SDK including:
 ## Prerequisites
 
 - Xcode 13.0 or later
-- iOS 12.0+ device (push notifications don't work on simulator)
+- iOS 14.0+ device (push notifications don't work on simulator)
 - CocoaPods installed
 - Entrig API key from your [Entrig Dashboard](https://entrig.com)
 - Apple Developer account with APNs certificate/key
