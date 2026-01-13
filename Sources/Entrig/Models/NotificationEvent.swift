@@ -11,13 +11,17 @@ public struct NotificationEvent {
     /// Optional notification type
     public let type: String?
 
+    /// UUID of the delivery record for status tracking
+    public let deliveryId: String?
+
     /// Additional data payload
     public let data: [String: Any]
 
-    public init(title: String, body: String, type: String?, data: [String: Any]) {
+    public init(title: String, body: String, type: String?, deliveryId: String? = nil, data: [String: Any]) {
         self.title = title
         self.body = body
         self.type = type
+        self.deliveryId = deliveryId
         self.data = data
     }
 }

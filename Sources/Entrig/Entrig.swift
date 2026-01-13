@@ -172,6 +172,12 @@ public class Entrig: NSObject {
     /// - Parameter notification: Notification from willPresentNotification
     public static func willPresentNotification(_ notification: UNNotification) {
         let event = APNsManager.shared.extractNotificationEvent(from: notification.request.content.userInfo)
+
+        // Report "delivered" status when notification is received in foreground
+        if let deliveryId = event.deliveryId {
+            APNsManager.shared.reportDeliveryStatus(deliveryId: deliveryId, status: "delivered")
+        }
+
         shared.notificationReceivedListener?.onNotificationReceived(event)
     }
 
@@ -180,6 +186,12 @@ public class Entrig: NSObject {
     /// - Parameter response: Notification response from didReceiveNotificationResponse
     public static func didReceiveNotification(_ response: UNNotificationResponse) {
         let event = APNsManager.shared.extractNotificationEvent(from: response.notification.request.content.userInfo)
+
+        // Report "read" status when notification is opened
+        if let deliveryId = event.deliveryId {
+            APNsManager.shared.reportDeliveryStatus(deliveryId: deliveryId, status: "read")
+        }
+
         shared.notificationClickListener?.onNotificationClick(event)
     }
 }

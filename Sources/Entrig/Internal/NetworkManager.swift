@@ -91,6 +91,47 @@ internal class NetworkManager {
         }
     }
 
+    /// Reports delivery status (delivered/read) to the server.
+    ///
+    /// - Parameters:
+    ///   - apiKey: The API key for authentication
+    ///   - deliveryId: UUID of the delivery record
+    ///   - status: Status to report ("delivered" or "read")
+    ///   - completion: Callback with result
+    func reportDeliveryStatus(
+        apiKey: String,
+        deliveryId: String,
+        status: String,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let timestamp = ISO8601DateFormatter().string(from: Date())
+
+        let body: [String: Any] = [
+            "delivery_id": deliveryId,
+            "status": status,
+            "timestamp": timestamp
+        ]
+
+        let headers = [
+            "Authorization": "Bearer \(apiKey)",
+            "Content-Type": "application/json"
+        ]
+
+        sendRequest(
+            endpoint: "/delivery-status",
+            method: "POST",
+            body: body,
+            headers: headers
+        ) { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     private func sendRequest(
         endpoint: String,
         method: String,

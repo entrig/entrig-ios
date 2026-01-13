@@ -143,14 +143,42 @@ internal class APNsManager: NSObject {
 
         var data: [String: Any] = [:]
         var type: String?
+        var deliveryId: String?
 
         if let dataDict = userInfo["data"] as? [String: Any] {
             data = dataDict
             type = data["type"] as? String
+            deliveryId = data["delivery_id"] as? String
             data.removeValue(forKey: "type")
+            data.removeValue(forKey: "delivery_id")
         }
 
-        return NotificationEvent(title: title, body: body, type: type, data: data)
+        return NotificationEvent(title: title, body: body, type: type, deliveryId: deliveryId, data: data)
+    }
+
+    /// Reports delivery status to the server.
+    ///
+    /// - Parameters:
+    ///   - deliveryId: UUID of the delivery record
+    ///   - status: Status to report ("delivered" or "read")
+    func reportDeliveryStatus(deliveryId: String, status: String) {
+        guard let apiKey = self.apiKey else {
+            print("[EntrigSDK] Cannot report delivery status: API key not configured")
+            return
+        }
+
+        NetworkManager.shared.reportDeliveryStatus(
+            apiKey: apiKey,
+            deliveryId: deliveryId,
+            status: status
+        ) { result in
+            switch result {
+            case .success:
+                print("[EntrigSDK] Delivery status reported: \(status) for \(deliveryId)")
+            case .failure(let error):
+                print("[EntrigSDK] Failed to report delivery status: \(error.localizedDescription)")
+            }
+        }
     }
 
     private func clearPendingState() {
