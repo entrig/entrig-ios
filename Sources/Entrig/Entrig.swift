@@ -194,4 +194,37 @@ public class Entrig: NSObject {
 
         shared.notificationClickListener?.onNotificationClick(event)
     }
+
+    // MARK: - Notification Service Extension
+
+    /// Call this from your Notification Service Extension to report delivery status.
+    /// This enables tracking when notifications are delivered even when the app is in background/killed.
+    ///
+    /// - Parameters:
+    ///   - request: The notification request from didReceive
+    ///   - apiKey: Your Entrig API key (required since extension runs in separate process)
+    public static func reportDelivered(request: UNNotificationRequest, apiKey: String) {
+        let userInfo = request.content.userInfo
+
+        // Extract delivery_id from the notification payload
+        guard let data = userInfo["data"] as? [String: Any],
+              let deliveryId = data["delivery_id"] as? String else {
+            print("[EntrigSDK] No delivery_id found in notification")
+            return
+        }
+
+        // Report delivery status directly via network call
+        NetworkManager.shared.reportDeliveryStatus(
+            apiKey: apiKey,
+            deliveryId: deliveryId,
+            status: "delivered"
+        ) { result in
+            switch result {
+            case .success:
+                print("[EntrigSDK] Delivery status reported: delivered for \(deliveryId)")
+            case .failure(let error):
+                print("[EntrigSDK] Failed to report delivery status: \(error.localizedDescription)")
+            }
+        }
+    }
 }

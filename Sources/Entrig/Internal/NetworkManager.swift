@@ -1,7 +1,7 @@
 import Foundation
 
-internal class NetworkManager {
-    static let shared = NetworkManager()
+public class NetworkManager {
+    public static let shared = NetworkManager()
 
     #if DEBUG
     static let isDebug = true
@@ -98,7 +98,7 @@ internal class NetworkManager {
     ///   - deliveryId: UUID of the delivery record
     ///   - status: Status to report ("delivered" or "read")
     ///   - completion: Callback with result
-    func reportDeliveryStatus(
+    public func reportDeliveryStatus(
         apiKey: String,
         deliveryId: String,
         status: String,
