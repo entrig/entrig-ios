@@ -14,7 +14,7 @@ Native iOS SDK for [Entrig](https://entrig.com) - No-code Push Notifications for
 <summary>CocoaPods (click to expand)</summary>
 
 ```ruby
-pod 'Entrig', '~> 0.0.6'
+pod 'Entrig', '~> 0.0.7'
 ```
 
 Then run:
