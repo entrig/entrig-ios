@@ -14,7 +14,7 @@ Native iOS SDK for [Entrig](https://entrig.com) - No-code Push Notifications for
 <summary>CocoaPods (click to expand)</summary>
 
 ```ruby
-pod 'Entrig', '~> 0.0.7'
+pod 'Entrig', '~> 0.0.8-dev'
 ```
 
 Then run:
@@ -318,6 +318,20 @@ See the [Example](./Example) folder for a complete chat app demonstrating:
 3. Check extension Bundle ID is `com.yourapp.NotificationService`
 4. Delete app and reinstall
 5. Verify `mutable-content: 1` is in push payload (handled by Entrig server)
+
+</details>
+
+<details>
+<summary>SPM linker error: "Undefined symbol: Entrig.Entrig"</summary>
+
+This occurs when the Entrig package isn't linked to your NotificationService extension target.
+
+**Fix:**
+1. Select **NotificationService** target (not main app)
+2. Go to **General** → **Frameworks and Libraries**
+3. Click **+** → Add **Entrig** package
+4. Set to **Do Not Embed**
+5. Clean and rebuild
 
 </details>
 

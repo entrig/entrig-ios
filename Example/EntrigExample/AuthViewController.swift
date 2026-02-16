@@ -155,7 +155,13 @@ class AuthViewController: UIViewController {
 
                 // Register with Entrig for push notifications
                 await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-                    Entrig.register(userId: userId) { success, error in
+                    #if DEBUG
+                    let isDebug = true
+                    #else
+                    let isDebug = false
+                    #endif
+
+                    Entrig.register(userId: userId, isDebug: isDebug) { success, error in
                         if success {
                             print("[Auth] ✅ Registered with Entrig")
                         } else {
