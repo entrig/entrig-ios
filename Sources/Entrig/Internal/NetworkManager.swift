@@ -3,12 +3,6 @@ import Foundation
 public class NetworkManager {
     public static let shared = NetworkManager()
 
-    #if DEBUG
-    static let isDebug = true
-    #else
-    static let isDebug = false
-    #endif
-
     private let baseURL = "https://wlbsugnskuojugsubnjj.supabase.co/functions/v1"
     private let timeout: TimeInterval = 30
 
@@ -19,14 +13,15 @@ public class NetworkManager {
         userId: String,
         apnToken: String,
         sdk: String,
+        isDebug: Bool,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
         let body: [String: Any] = [
             "user_id": userId,
             "apn_token": apnToken,
-            "is_sandbox": NetworkManager.isDebug,
+            "is_sandbox": isDebug,
             "sdk": sdk,
-            "is_debug": NetworkManager.isDebug,
+            "is_debug": isDebug,
         ]
 
         let headers = [

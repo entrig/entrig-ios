@@ -30,7 +30,7 @@ public class Entrig: NSObject {
     /// Shared instance
     public static let shared = Entrig()
 
-    private var config: EntrigConfig?
+    private(set) var config: EntrigConfig?
 
     // Listeners
     private weak var notificationReceivedListener: OnNotificationReceivedListener?
@@ -66,11 +66,24 @@ public class Entrig: NSObject {
     /// - Parameters:
     ///   - userId: Unique identifier for the user
     ///   - sdk: SDK identifier (e.g., "flutter", "ios"). Defaults to "ios"
+    ///   - isDebug: Whether the app is running in debug mode. Defaults to compile-time DEBUG flag
     ///   - callback: Optional callback for registration result
-    public static func register(userId: String, sdk: String = "ios", callback: OnRegistrationCallback? = nil) {
+    public static func register(userId: String, sdk: String = "ios", isDebug: Bool? = nil, callback: OnRegistrationCallback? = nil) {
         guard let config = shared.config else {
             callback?(false, "SDK not configured. Call configure() first.")
             return
+        }
+
+        // Resolve isDebug: use parameter, fall back to compile-time DEBUG flag
+        let resolvedIsDebug: Bool
+        if let isDebug = isDebug {
+            resolvedIsDebug = isDebug
+        } else {
+            #if DEBUG
+            resolvedIsDebug = true
+            #else
+            resolvedIsDebug = false
+            #endif
         }
 
         if config.handlePermission {
@@ -81,13 +94,13 @@ public class Entrig: NSObject {
                 }
 
                 if granted {
-                    APNsManager.shared.registerUser(userId: userId, sdk: sdk, callback: callback)
+                    APNsManager.shared.registerUser(userId: userId, sdk: sdk, isDebug: resolvedIsDebug, callback: callback)
                 } else {
                     callback?(false, "Notification permission not granted")
                 }
             }
         } else {
-            APNsManager.shared.registerUser(userId: userId, sdk: sdk, callback: callback)
+            APNsManager.shared.registerUser(userId: userId, sdk: sdk, isDebug: resolvedIsDebug, callback: callback)
         }
     }
 
@@ -179,6 +192,22 @@ public class Entrig: NSObject {
         }
 
         shared.notificationReceivedListener?.onNotificationReceived(event)
+    }
+
+    /// Returns the notification presentation options based on the SDK configuration.
+    /// Use this in your UNUserNotificationCenterDelegate's willPresentNotification completion handler.
+    ///
+    /// - Returns: Presentation options respecting showForegroundNotification config
+    public static func getPresentationOptions() -> UNNotificationPresentationOptions {
+        guard let config = shared.config else {
+            return []
+        }
+
+        if config.showForegroundNotification {
+            return [.banner, .sound, .badge]
+        } else {
+            return []
+        }
     }
 
     /// Call this from userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:

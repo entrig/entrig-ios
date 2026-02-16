@@ -24,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let config = EntrigConfig(
             apiKey: entrigApiKey,
-            handlePermission: true
+            handlePermission: true,
+            showForegroundNotification: false
         )
 
         Entrig.configure(config: config) { success, error in
@@ -90,8 +91,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         print("[EntrigExample] 🔔 Notification received in foreground")
         Entrig.willPresentNotification(notification)
 
-        // Show banner, sound, and badge
-        completionHandler([.banner, .sound, .badge])
+        // Use SDK config to determine if notification should be shown
+        completionHandler(Entrig.getPresentationOptions())
     }
 
     // Handle notification taps
