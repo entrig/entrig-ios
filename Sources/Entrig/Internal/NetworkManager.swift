@@ -1,7 +1,7 @@
 import Foundation
 
-public class NetworkManager {
-    public static let shared = NetworkManager()
+internal class NetworkManager {
+    static let shared = NetworkManager()
 
     private let baseURL = "https://wlbsugnskuojugsubnjj.supabase.co/functions/v1"
     private let timeout: TimeInterval = 30
@@ -93,7 +93,7 @@ public class NetworkManager {
     ///   - deliveryId: UUID of the delivery record
     ///   - status: Status to report ("delivered" or "read")
     ///   - completion: Callback with result
-    public func reportDeliveryStatus(
+    func reportDeliveryStatus(
         apiKey: String,
         deliveryId: String,
         status: String,
@@ -161,6 +161,18 @@ public class NetworkManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 completion(.failure(error))
+                return
+            }
+
+            // Validate HTTP response status code
+            if let httpResponse = response as? HTTPURLResponse,
+               !(200...299).contains(httpResponse.statusCode) {
+                let errorBody = data.flatMap { String(data: $0, encoding: .utf8) } ?? "No response body"
+                completion(.failure(NSError(
+                    domain: "EntrigSDK",
+                    code: httpResponse.statusCode,
+                    userInfo: [NSLocalizedDescriptionKey: "Request failed (\(httpResponse.statusCode)): \(errorBody)"]
+                )))
                 return
             }
 

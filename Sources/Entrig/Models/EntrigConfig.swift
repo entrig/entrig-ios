@@ -16,7 +16,9 @@ public struct EntrigConfig {
         handlePermission: Bool = true,
         showForegroundNotification: Bool = true
     ) {
-        precondition(!apiKey.isEmpty, "API key cannot be empty")
+        if apiKey.isEmpty {
+            print("[EntrigSDK] Warning: API key is empty. SDK calls will fail.")
+        }
         self.apiKey = apiKey
         self.handlePermission = handlePermission
         self.showForegroundNotification = showForegroundNotification

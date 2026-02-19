@@ -86,7 +86,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         Entrig.willPresentNotification(notification)
-        completionHandler([.banner, .sound, .badge])
+        completionHandler(Entrig.getPresentationOptions())
     }
 
     func userNotificationCenter(
@@ -151,7 +151,8 @@ extension MyViewController: OnNotificationClickListener {
 ```swift
 let config = EntrigConfig(
     apiKey: "your-api-key",
-    handlePermission: true  // Auto-request permission on register (default: true)
+    handlePermission: true,            // Auto-request permission on register (default: true)
+    showForegroundNotification: true    // Show notifications when app is in foreground (default: true)
 )
 Entrig.configure(config: config)
 ```
