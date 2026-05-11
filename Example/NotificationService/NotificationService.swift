@@ -26,7 +26,7 @@ class NotificationService: UNNotificationServiceExtension {
 
         if let bestAttemptContent = bestAttemptContent {
             // Add marker to confirm extension ran
-            bestAttemptContent.title = "\(bestAttemptContent.title) [delivered]"
+            bestAttemptContent.title = "\(bestAttemptContent.title)"
             contentHandler(bestAttemptContent)
         }
     }

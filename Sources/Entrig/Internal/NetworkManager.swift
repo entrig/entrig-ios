@@ -13,16 +13,21 @@ internal class NetworkManager {
         userId: String,
         apnToken: String,
         sdk: String,
+        sdkVersion: String?,
         isDebug: Bool,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "user_id": userId,
             "apn_token": apnToken,
             "is_sandbox": isDebug,
             "sdk": sdk,
             "is_debug": isDebug,
         ]
+
+        if let sdkVersion = sdkVersion {
+            body["sdk_version"] = sdkVersion
+        }
 
         let headers = [
             "Authorization": "Bearer \(apiKey)",

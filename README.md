@@ -14,7 +14,7 @@ Native iOS SDK for [Entrig](https://entrig.com) - No-code Push Notifications for
 <summary>CocoaPods (click to expand)</summary>
 
 ```ruby
-pod 'Entrig', '~> 0.0.8-dev'
+pod 'EntrigSDK', '~> 1.0.1'
 ```
 
 Then run:
@@ -139,6 +139,43 @@ extension MyViewController: OnNotificationClickListener {
         print("Clicked: \(notification.title)")
         // Navigate based on notification.type or notification.data
     }
+}
+```
+
+### Payload Data Shape
+
+`notification.data` only includes the fields you selected while configuring the notification in Entrig.
+
+- If you select a regular column, you receive its direct value.
+- If you select a foreign key column without selecting any fields from the related table, you receive the foreign key value directly.
+- If you select fields from the related table for that foreign key, you receive an object under the same foreign key field name.
+
+Example payloads:
+
+```json
+{
+  "message": "Hello",
+  "user_id": "6d4d6d9d-7f7e-4f0b-9f26-123456789abc"
+}
+```
+
+```json
+{
+  "message": "Hello",
+  "user_id": {
+    "name": "John"
+  }
+}
+```
+
+Access in Swift:
+
+```swift
+let message = notification.data["message"] as? String
+let userIdValue = notification.data["user_id"] as? String
+
+if let userObject = notification.data["user_id"] as? [String: Any] {
+    let userName = userObject["name"] as? String
 }
 ```
 
@@ -281,7 +318,6 @@ public struct NotificationEvent {
     public let title: String              // Notification title
     public let body: String               // Notification body
     public let type: String?              // Custom type (e.g., "new_message")
-    public let deliveryId: String?        // UUID for delivery tracking
     public let data: [String: Any]        // Custom payload data
 }
 ```

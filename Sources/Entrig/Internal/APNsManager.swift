@@ -8,9 +8,11 @@ internal class APNsManager: NSObject {
     private let registrationIdKey = "entrig_registration_id"
     private let userIdKey = "entrig_user_id"
     private let isDebugKey = "entrig_is_debug"
+    private let sdkVersionKey = "entrig_sdk_version"
 
     private var pendingUserId: String?
     private var pendingSdk: String?
+    private var pendingSdkVersion: String?
     private var pendingIsDebug: Bool?
     private var pendingCallback: OnRegistrationCallback?
     private var apiKey: String?
@@ -47,6 +49,7 @@ internal class APNsManager: NSObject {
             userId: userId,
             apnToken: token,
             sdk: sdk,
+            sdkVersion: pendingSdkVersion,
             isDebug: isDebug
         ) { [weak self] result in
             guard let self = self else { return }
@@ -56,6 +59,11 @@ internal class APNsManager: NSObject {
                 case .success(let registrationId):
                     UserDefaults.standard.set(registrationId, forKey: self.registrationIdKey)
                     UserDefaults.standard.set(userId, forKey: self.userIdKey)
+                    if let sdkVersion = self.pendingSdkVersion {
+                        UserDefaults.standard.set(sdkVersion, forKey: self.sdkVersionKey)
+                    } else {
+                        UserDefaults.standard.removeObject(forKey: self.sdkVersionKey)
+                    }
                     UserDefaults.standard.set(isDebug, forKey: self.isDebugKey)
                     print("[EntrigSDK] User registered successfully. ID: \(registrationId)")
                     self.pendingCallback?(true, nil)
@@ -77,9 +85,16 @@ internal class APNsManager: NSObject {
         }
     }
 
-    func registerUser(userId: String, sdk: String, isDebug: Bool, callback: OnRegistrationCallback?) {
+    func registerUser(
+        userId: String,
+        sdk: String,
+        sdkVersion: String?,
+        isDebug: Bool,
+        callback: OnRegistrationCallback?
+    ) {
         self.pendingUserId = userId
         self.pendingSdk = sdk
+        self.pendingSdkVersion = sdkVersion
         self.pendingIsDebug = isDebug
         self.pendingCallback = callback
 
@@ -107,6 +122,7 @@ internal class APNsManager: NSObject {
                 case .success:
                     UserDefaults.standard.removeObject(forKey: self.registrationIdKey)
                     UserDefaults.standard.removeObject(forKey: self.userIdKey)
+                    UserDefaults.standard.removeObject(forKey: self.sdkVersionKey)
                     UserDefaults.standard.removeObject(forKey: self.isDebugKey)
                     print("[EntrigSDK] User unregistered successfully")
                     callback?(true, nil)
@@ -191,6 +207,7 @@ internal class APNsManager: NSObject {
     private func clearPendingState() {
         pendingUserId = nil
         pendingSdk = nil
+        pendingSdkVersion = nil
         pendingIsDebug = nil
         pendingCallback = nil
     }

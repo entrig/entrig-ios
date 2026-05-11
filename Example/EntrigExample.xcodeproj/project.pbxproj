@@ -239,7 +239,7 @@
 			mainGroup = 1D8E7F5D2C8B9A1D00000000;
 			packageReferences = (
 				2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
-				284156422F432091000C5534 /* XCRemoteSwiftPackageReference "entrig-ios" */,
+				284156422F432091000C5534 /* XCLocalSwiftPackageReference ".." */,
 			);
 			productRefGroup = 1D8E7F672C8B9A1D00000000 /* Products */;
 			projectDirPath = "";
@@ -577,15 +577,14 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		284156422F432091000C5534 /* XCRemoteSwiftPackageReference "entrig-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/entrig/entrig-ios";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		284156422F432091000C5534 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
 		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
 		2898E4CF2EEAAB220056F8C8 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift";
@@ -599,12 +598,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		284156432F4320A6000C5534 /* Entrig */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 284156422F432091000C5534 /* XCRemoteSwiftPackageReference "entrig-ios" */;
+			package = 284156422F432091000C5534 /* XCLocalSwiftPackageReference ".." */;
 			productName = Entrig;
 		};
 		284156452F4320B3000C5534 /* Entrig */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 284156422F432091000C5534 /* XCRemoteSwiftPackageReference "entrig-ios" */;
+			package = 284156422F432091000C5534 /* XCLocalSwiftPackageReference ".." */;
 			productName = Entrig;
 		};
 		2894B36F2EEAB5DF005968C9 /* Auth */ = {

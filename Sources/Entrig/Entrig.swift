@@ -26,7 +26,7 @@ import UIKit
 /// Entrig.setOnNotificationOpenedListener(self)
 /// ```
 public class Entrig: NSObject {
-
+    private static let sdkVersion = "1.0.0"
     /// Shared instance
     public static let shared = Entrig()
 
@@ -66,13 +66,22 @@ public class Entrig: NSObject {
     /// - Parameters:
     ///   - userId: Unique identifier for the user
     ///   - sdk: SDK identifier (e.g., "flutter", "ios"). Defaults to "ios"
+    ///   - sdkVersion: Optional SDK package version override. Defaults to the iOS SDK version.
     ///   - isDebug: Whether the app is running in debug mode. Defaults to compile-time DEBUG flag
     ///   - callback: Optional callback for registration result
-    public static func register(userId: String, sdk: String = "ios", isDebug: Bool? = nil, callback: OnRegistrationCallback? = nil) {
+    public static func register(
+        userId: String,
+        sdk: String = "ios",
+        sdkVersion: String? = nil,
+        isDebug: Bool? = nil,
+        callback: OnRegistrationCallback? = nil
+    ) {
         guard let config = shared.config else {
             callback?(false, "SDK not configured. Call configure() first.")
             return
         }
+
+        let resolvedSdkVersion = sdkVersion ?? Self.sdkVersion
 
         // Resolve isDebug: use parameter, fall back to compile-time DEBUG flag
         let resolvedIsDebug: Bool
@@ -94,13 +103,25 @@ public class Entrig: NSObject {
                 }
 
                 if granted {
-                    APNsManager.shared.registerUser(userId: userId, sdk: sdk, isDebug: resolvedIsDebug, callback: callback)
+                    APNsManager.shared.registerUser(
+                        userId: userId,
+                        sdk: sdk,
+                        sdkVersion: resolvedSdkVersion,
+                        isDebug: resolvedIsDebug,
+                        callback: callback
+                    )
                 } else {
                     callback?(false, "Notification permission not granted")
                 }
             }
         } else {
-            APNsManager.shared.registerUser(userId: userId, sdk: sdk, isDebug: resolvedIsDebug, callback: callback)
+            APNsManager.shared.registerUser(
+                userId: userId,
+                sdk: sdk,
+                sdkVersion: resolvedSdkVersion,
+                isDebug: resolvedIsDebug,
+                callback: callback
+            )
         }
     }
 
