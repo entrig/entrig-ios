@@ -8,13 +8,13 @@ public struct EntrigConfig {
     /// If true, SDK will automatically request notification permission on registration
     public let handlePermission: Bool
 
-    /// If true, notifications will be displayed when app is in foreground (default: true)
+    /// If true, notifications will be displayed when app is in foreground (default: false)
     public let showForegroundNotification: Bool
 
     public init(
         apiKey: String,
         handlePermission: Bool = true,
-        showForegroundNotification: Bool = true
+        showForegroundNotification: Bool = false
     ) {
         if apiKey.isEmpty {
             print("[EntrigSDK] Warning: API key is empty. SDK calls will fail.")
