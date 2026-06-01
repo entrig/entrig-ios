@@ -255,7 +255,7 @@ public class Entrig: NSObject {
            let url = URL(string: deeplinkString),
            let scheme = url.scheme, !scheme.isEmpty {
             let isWebURL = scheme == "http" || scheme == "https"
-            let options: [UIApplication.OpenURLOptionsKey: Any] = isWebURL ? [.universalLinksOnly: true] : [:]
+            let options: [UIApplication.OpenExternalURLOptionsKey: Any] = isWebURL ? [.universalLinksOnly: true] : [:]
 
             UIApplication.shared.open(url, options: options) { success in
                 if !success {
