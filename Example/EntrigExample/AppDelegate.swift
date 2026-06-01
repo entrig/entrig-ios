@@ -25,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let config = EntrigConfig(
             apiKey: entrigApiKey,
             handlePermission: true,
-            showForegroundNotification: false
+            showForegroundNotification: false,
+            autoOpenDeeplink: true
         )
 
         Entrig.configure(config: config) { success, error in
@@ -56,6 +57,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
 
+        return true
+    }
+
+    // MARK: - Deeplink Handling
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        guard url.scheme == "groupchat",
+              let groupId = url.host, !groupId.isEmpty else {
+            return false
+        }
+
+        let groupName = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+            .queryItems?.first(where: { $0.name == "name" })?.value ?? "Group"
+
+        guard AuthService.shared.isSignedIn,
+              let nav = window?.rootViewController as? UINavigationController else {
+            return false
+        }
+
+        nav.popToRootViewController(animated: false)
+        nav.pushViewController(ChatViewController(groupId: groupId, groupName: groupName), animated: true)
         return true
     }
 
@@ -102,7 +124,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         print("[EntrigExample] 👆 Notification tapped")
-        Entrig.didReceiveNotification(response)
+        Entrig.didReceiveNotificationResponse(response)
         completionHandler()
     }
 }

@@ -17,7 +17,11 @@ internal class APNsManager: NSObject {
     private var pendingCallback: OnRegistrationCallback?
     private var apiKey: String?
 
-    // Cached initial notification
+    // Cached initial notification.
+    // Both handleLaunchNotification and getInitialNotification must be called on the main thread —
+    // handleLaunchNotification from didFinishLaunchingWithOptions and getInitialNotification from
+    // user code during app startup are both main-thread by convention. No synchronisation is added
+    // to avoid the overhead; callers must not access these from background threads.
     private var cachedInitialNotification: NotificationEvent?
     private var initialNotificationConsumed = false
 
@@ -166,17 +170,20 @@ internal class APNsManager: NSObject {
 
         var data: [String: Any] = [:]
         var type: String?
+        var deeplink: String?
         var deliveryId: String?
 
         if let dataDict = userInfo["data"] as? [String: Any] {
             data = dataDict
             type = data["type"] as? String
+            deeplink = data["deeplink"] as? String
             deliveryId = data["delivery_id"] as? String
             data.removeValue(forKey: "type")
+            data.removeValue(forKey: "deeplink")
             data.removeValue(forKey: "delivery_id")
         }
 
-        return NotificationEvent(title: title, body: body, type: type, deliveryId: deliveryId, data: data)
+        return NotificationEvent(title: title, body: body, type: type, deeplink: deeplink, deliveryId: deliveryId, data: data)
     }
 
     /// Reports delivery status to the server.

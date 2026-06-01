@@ -20,8 +20,8 @@ class GroupsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupNotificationListeners()
         loadUserAndGroups()
+        handleColdStartDeeplink()
     }
 
     // MARK: - Setup
@@ -70,14 +70,11 @@ class GroupsViewController: UIViewController {
         navigationItem.leftBarButtonItem?.tintColor = .systemRed
     }
 
-    private func setupNotificationListeners() {
-        Entrig.setOnForegroundNotificationListener(self)
-        Entrig.setOnNotificationOpenedListener(self)
-
-        // Check for initial notification
-        if let notification = Entrig.getInitialNotification() {
-            handleNotification(notification)
-        }
+    private func handleColdStartDeeplink() {
+        guard let notification = Entrig.getInitialNotification(),
+              let deeplinkString = notification.deeplink,
+              let url = URL(string: deeplinkString) else { return }
+        UIApplication.shared.open(url)
     }
 
     // MARK: - Data Loading
@@ -288,75 +285,6 @@ class GroupsViewController: UIViewController {
         navigationController?.pushViewController(chatVC, animated: true)
     }
 
-    // MARK: - Notification Handling
-
-    private func handleNotification(_ notification: NotificationEvent) {
-        print("[Groups] Notification: \(notification.title)")
-
-        guard let type = notification.type else { return }
-
-        switch type {
-        case "new_member":
-            handleNewMemberNotification(notification)
-        case "new_message":
-            handleNewMessageNotification(notification)
-        case "new_group":
-            handleNewGroupNotification(notification)
-        default:
-            break
-        }
-    }
-
-    private func handleNewMemberNotification(_ notification: NotificationEvent) {
-        guard let groupData = notification.data["groups"] as? [String: Any],
-              let groupId = groupData["id"] as? String,
-              let groupName = groupData["name"] as? String,
-              let userData = notification.data["users"] as? [String: Any],
-              let userName = userData["name"] as? String else { return }
-
-        let alert = UIAlertController(
-            title: "New Member Joined",
-            message: "\(userName) joined \"\(groupName)\"!",
-            preferredStyle: .alert
-        )
-
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .default))
-        alert.addAction(UIAlertAction(title: "View Group", style: .default) { [weak self] _ in
-            let group = Group(id: groupId, createdAt: nil, name: groupName, createdBy: "")
-            self?.navigateToChat(group: group)
-        })
-
-        present(alert, animated: true)
-    }
-
-    private func handleNewMessageNotification(_ notification: NotificationEvent) {
-        guard let groupData = notification.data["groups"] as? [String: Any],
-              let groupId = groupData["id"] as? String,
-              let groupName = groupData["name"] as? String else { return }
-
-        let group = Group(id: groupId, createdAt: nil, name: groupName, createdBy: "")
-        navigateToChat(group: group)
-    }
-
-    private func handleNewGroupNotification(_ notification: NotificationEvent) {
-        guard let groupId = notification.data["id"] as? String,
-              let groupName = notification.data["name"] as? String else { return }
-
-        let alert = UIAlertController(
-            title: "New Group Created",
-            message: "A new group \"\(groupName)\" has been created!",
-            preferredStyle: .alert
-        )
-
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .default))
-        alert.addAction(UIAlertAction(title: "View", style: .default) { [weak self] _ in
-            let group = Group(id: groupId, createdAt: nil, name: groupName, createdBy: "")
-            self?.navigateToChat(group: group)
-        })
-
-        present(alert, animated: true)
-    }
-
     private func showAlert(message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -391,25 +319,6 @@ extension GroupsViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let group = groups[indexPath.row]
         joinGroup(group)
-    }
-}
-
-// MARK: - OnNotificationReceivedListener
-
-extension GroupsViewController: OnNotificationReceivedListener {
-    func onNotificationReceived(_ notification: NotificationEvent) {
-        print("[Groups] Foreground notification: \(notification.title)")
-        // Refresh groups list
-        refreshGroups()
-    }
-}
-
-// MARK: - OnNotificationClickListener
-
-extension GroupsViewController: OnNotificationClickListener {
-    func onNotificationClick(_ notification: NotificationEvent) {
-        print("[Groups] Notification clicked: \(notification.title)")
-        handleNotification(notification)
     }
 }
 

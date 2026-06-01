@@ -177,7 +177,13 @@ public class Entrig: NSObject {
         return APNsManager.shared.getInitialNotification()
     }
 
-    /// Call this from application:didFinishLaunchingWithOptions: to handle cold start notifications
+    /// Call this from application:didFinishLaunchingWithOptions: to handle cold start notifications.
+    ///
+    /// The notification is cached and retrieved via getInitialNotification(). autoOpenDeeplink
+    /// does not fire on this path — the app is still initialising at this point and routing
+    /// libraries (app_links, etc.) are not yet ready to handle an incoming URL. Retrieve the
+    /// deeplink from getInitialNotification() and navigate at the appropriate point in your
+    /// app's startup sequence.
     ///
     /// - Parameter launchOptions: Launch options from didFinishLaunchingWithOptions
     public static func checkLaunchNotification(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
@@ -234,7 +240,7 @@ public class Entrig: NSObject {
     /// Call this from userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:
     ///
     /// - Parameter response: Notification response from didReceiveNotificationResponse
-    public static func didReceiveNotification(_ response: UNNotificationResponse) {
+    public static func didReceiveNotificationResponse(_ response: UNNotificationResponse) {
         let event = APNsManager.shared.extractNotificationEvent(from: response.notification.request.content.userInfo)
 
         // Report "read" status when notification is opened
@@ -243,6 +249,24 @@ public class Entrig: NSObject {
         }
 
         shared.notificationClickListener?.onNotificationClick(event)
+
+        if shared.config?.autoOpenDeeplink == true,
+           let deeplinkString = event.deeplink, !deeplinkString.isEmpty,
+           let url = URL(string: deeplinkString),
+           let scheme = url.scheme, !scheme.isEmpty {
+            let isWebURL = scheme == "http" || scheme == "https"
+            let options: [UIApplication.OpenURLOptionsKey: Any] = isWebURL ? [.universalLinksOnly: true] : [:]
+
+            UIApplication.shared.open(url, options: options) { success in
+                if !success {
+                    if isWebURL {
+                        print("[EntrigSDK] autoOpenDeeplink: no app handled universal link — check AASA file and associated domains entitlement: \(deeplinkString)")
+                    } else {
+                        print("[EntrigSDK] autoOpenDeeplink: failed to open deeplink (scheme not registered in Info.plist?): \(deeplinkString)")
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Notification Service Extension
